@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">MovieApp_part1</string>
+    <string name="app_name">MovieApp</string>
+    <string name="popular">Popular</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="error_message">An error has occurred</string>
+    <string name="release_date">Release Date</string>
+    <string name="synopsis">Synopsis</string>
+    <string name="vote_average">Vote Average</string>
 </resources>
