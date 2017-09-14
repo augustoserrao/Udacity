@@ -1,0 +1,1 @@
+API key must be written in file /MovieApp_part1/app/src/main/assets/API_Key.txt
