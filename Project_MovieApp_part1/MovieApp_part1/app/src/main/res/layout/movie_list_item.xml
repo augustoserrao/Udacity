@@ -5,7 +5,7 @@
 
     <ImageView
         android:id="@+id/iv_movie_thumbnail"
+        android:adjustViewBounds="true"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:scaleType="fitXY"/>
+        android:layout_height="wrap_content"/>
 </FrameLayout>

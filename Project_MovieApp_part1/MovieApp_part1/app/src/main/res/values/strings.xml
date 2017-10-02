@@ -2,8 +2,14 @@
     <string name="app_name">MovieApp</string>
     <string name="popular">Popular</string>
     <string name="top_rated">Top Rated</string>
+    <string name="favorites">Favorites</string>
     <string name="error_message">An error has occurred</string>
     <string name="release_date">Release Date</string>
     <string name="synopsis">Synopsis</string>
     <string name="vote_average">Vote Average</string>
+    <string name="add_favorite_toast_message">Movie added to favorite list!</string>
+    <string name="remove_favorite_toast_message">Movie removed from favorite list!</string>
+    <string name="trailer">Trailer</string>
+    <string name="reviews">Reviews:</string>
+    <string name="trailers">Trailers:</string>
 </resources>

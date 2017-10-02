@@ -15,17 +15,26 @@
             android:id="@+id/popular_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="20dp"
+            android:paddingRight="5dp"
             android:text="@string/popular"
-            android:textSize="20dp"
+            android:textSize="17sp"
             android:onClick="onRadioButtonClicked"/>
 
         <RadioButton
             android:id="@+id/toprated_radio_button"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/top_rated"
-            android:textSize="20dp"
+            android:textSize="17sp"
+            android:paddingRight="5dp"
+            android:onClick="onRadioButtonClicked"/>
+
+        <RadioButton
+            android:id="@+id/favorites_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/favorites"
+            android:textSize="17sp"
             android:onClick="onRadioButtonClicked"/>
     </RadioGroup>
 
@@ -34,9 +43,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#000000"
+        android:background="@color/colorPrimary"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp" />
+        android:layout_marginRight="8dp"/>
 
     <FrameLayout
         android:layout_width="match_parent"

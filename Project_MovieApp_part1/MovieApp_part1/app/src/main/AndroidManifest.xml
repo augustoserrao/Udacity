@@ -3,16 +3,17 @@
     package="com.example.augustoserrao.movieapp_part1">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_movies"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_movies"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"
-            android:launchMode="singleInstance">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,6 +26,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"></meta-data>
         </activity>
+
+        <provider
+            android:name="com.example.augustoserrao.movieapp_part1.data.MovieProvider"
+            android:authorities="com.example.augustoserrao.movieapp"
+            android:exported="false"/>
     </application>
 
 </manifest>

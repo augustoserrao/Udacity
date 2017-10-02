@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp">
+
+    <TextView
+        android:id="@+id/review_author_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Screen-Space:"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textStyle="italic"
+        android:textColor="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/review_body_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Skarsgård goes to hell and back to craft a truly malevolent creation, utterly believable as the black soul of King’s cursed small town..\n\nRead the full review here: http://screen-space.squarespace.com/reviews/2017/9/6/it.html"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
+
+    <View
+        android:id="@+id/review_item_separator"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
+
+</LinearLayout>

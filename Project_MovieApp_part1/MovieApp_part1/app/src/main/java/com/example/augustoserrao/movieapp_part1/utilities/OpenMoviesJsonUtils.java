@@ -5,6 +5,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.augustoserrao.movieapp_part1.data.MovieData;
+import com.example.augustoserrao.movieapp_part1.data.MovieReview;
+import com.example.augustoserrao.movieapp_part1.data.MovieTrailer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,7 +66,6 @@ public class OpenMoviesJsonUtils {
 
         JSONArray moviesArray = moviesJson.getJSONArray(OWM_RESULTS);
 
-        //parsedMoviesData = new MovieData[moviesArray.length()];
         moviesDataList = new ArrayList<MovieData>();
         for (int i = 0; i < moviesArray.length(); i++) {
 
@@ -114,8 +115,140 @@ public class OpenMoviesJsonUtils {
                     OWM_RELEASE_DATE + ": " + parsedMoviesData.release_date + " ");
         }
 
-
-
         return moviesDataList;
+    }
+
+    public static ArrayList<MovieTrailer> getMovieTrailersFromJson(Context context, String movieTrailersJsonStr)
+        throws JSONException {
+
+        // Json strings to be parsed
+        final String OWM_RESULTS = "results";
+        final String OWM_ID = "id";
+        final String OWM_ISO_639_1 = "iso_639_1";
+        final String OWM_ISO_3166_1 = "iso_3166_1";
+        final String OWM_KEY = "key";
+        final String OWM_NAME = "name";
+        final String OWM_SITE = "site";
+        final String OWM_SIZE = "size";
+        final String OWM_TYPE = "type";
+
+        final String OWM_MESSAGE_CODE = "cod";
+
+    /* MovieData array to hold each movie's data */
+        ArrayList<MovieTrailer> movieTrailerList = null;
+
+        JSONObject movieTrailerJson = new JSONObject(movieTrailersJsonStr);
+
+    /* Is there an error? */
+        if (movieTrailerJson.has(OWM_MESSAGE_CODE)) {
+            int errorCode = movieTrailerJson.getInt(OWM_MESSAGE_CODE);
+
+            switch (errorCode) {
+                case HttpURLConnection.HTTP_OK:
+                    break;
+                case HttpURLConnection.HTTP_NOT_FOUND:
+                /* Location invalid */
+                    return null;
+                default:
+                /* Server probably down */
+                    return null;
+            }
+        }
+
+        JSONArray movieTrailersArray = movieTrailerJson.getJSONArray(OWM_RESULTS);
+
+        movieTrailerList = new ArrayList<MovieTrailer>();
+        for (int i = 0; i < movieTrailersArray.length(); i++) {
+
+            JSONObject currentMovieTrailer = movieTrailersArray.getJSONObject(i);
+
+            MovieTrailer parsedMoviesTrailer = new MovieTrailer();
+
+            // Parses each data
+
+            parsedMoviesTrailer.id         = currentMovieTrailer.getString(OWM_ID);
+            parsedMoviesTrailer.iso_639_1  = currentMovieTrailer.getString(OWM_ISO_639_1);
+            parsedMoviesTrailer.iso_3166_1 = currentMovieTrailer.getString(OWM_ISO_3166_1);
+            parsedMoviesTrailer.key        = currentMovieTrailer.getString(OWM_KEY);
+            parsedMoviesTrailer.name       = currentMovieTrailer.getString(OWM_NAME);
+            parsedMoviesTrailer.site       = currentMovieTrailer.getString(OWM_SITE);
+            parsedMoviesTrailer.size       = currentMovieTrailer.getInt(OWM_SIZE);
+            parsedMoviesTrailer.type       = currentMovieTrailer.getString(OWM_TYPE);
+
+            movieTrailerList.add(parsedMoviesTrailer);
+
+            Log.v(TAG, "Current movie trailer: " +
+                    OWM_ID         + ": " + parsedMoviesTrailer.id         + " " +
+                    OWM_ISO_639_1  + ": " + parsedMoviesTrailer.iso_639_1  + " " +
+                    OWM_ISO_3166_1 + ": " + parsedMoviesTrailer.iso_3166_1 + " " +
+                    OWM_KEY        + ": " + parsedMoviesTrailer.key        + " " +
+                    OWM_NAME       + ": " + parsedMoviesTrailer.name       + " " +
+                    OWM_SITE       + ": " + parsedMoviesTrailer.site       + " " +
+                    OWM_SIZE       + ": " + parsedMoviesTrailer.size       + " " +
+                    OWM_TYPE       + ": " + parsedMoviesTrailer.type       + " ");
+        }
+
+        return movieTrailerList;
+    }
+
+    public static ArrayList<MovieReview> getMovieReviewsFromJson(Context context, String movieReviewsJsonStr)
+            throws JSONException {
+
+        // Json strings to be parsed
+        final String OWM_RESULTS = "results";
+        final String OWM_ID = "id";
+        final String OWM_AUTHOR = "author";
+        final String OWM_CONTENT = "content";
+        final String OWM_URL = "url";
+
+        final String OWM_MESSAGE_CODE = "cod";
+
+
+    /* MovieData array to hold each movie's data */
+        ArrayList<MovieReview> movieReviewsList = null;
+
+        JSONObject movieReviewJson = new JSONObject(movieReviewsJsonStr);
+
+    /* Is there an error? */
+        if (movieReviewJson.has(OWM_MESSAGE_CODE)) {
+            int errorCode = movieReviewJson.getInt(OWM_MESSAGE_CODE);
+
+            switch (errorCode) {
+                case HttpURLConnection.HTTP_OK:
+                    break;
+                case HttpURLConnection.HTTP_NOT_FOUND:
+                /* Location invalid */
+                    return null;
+                default:
+                /* Server probably down */
+                    return null;
+            }
+        }
+
+        JSONArray movieReviewsArray = movieReviewJson.getJSONArray(OWM_RESULTS);
+
+        movieReviewsList = new ArrayList<MovieReview>();
+        for (int i = 0; i < movieReviewsArray.length(); i++) {
+
+            JSONObject currentMovieReview = movieReviewsArray.getJSONObject(i);
+
+            MovieReview parsedMovieReview = new MovieReview();
+
+            // Parses each data
+            parsedMovieReview.id      = currentMovieReview.getString(OWM_ID);
+            parsedMovieReview.author  = currentMovieReview.getString(OWM_AUTHOR);
+            parsedMovieReview.content = currentMovieReview.getString(OWM_CONTENT);
+            parsedMovieReview.url     = currentMovieReview.getString(OWM_URL);
+
+            movieReviewsList.add(parsedMovieReview);
+
+            Log.v(TAG, "Current movie review: " +
+                    OWM_ID      + ": " + parsedMovieReview.id      + " " +
+                    OWM_AUTHOR  + ": " + parsedMovieReview.author  + " " +
+                    OWM_CONTENT + ": " + parsedMovieReview.content + " " +
+                    OWM_URL     + ": " + parsedMovieReview.url     + " ");
+        }
+
+        return movieReviewsList;
     }
 }

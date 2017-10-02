@@ -1,10 +1,12 @@
 package com.example.augustoserrao.movieapp_part1;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -13,6 +15,8 @@ import com.example.augustoserrao.movieapp_part1.utilities.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Help from Udacity.
@@ -48,7 +52,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     public void onBindViewHolder(MovieAdapterViewHolder holder, int position) {
 
         // Set item's picture
-        Picasso.with(context).load(Utils.BASE_PICTURE_URL + movieDataList.get(position).poster_path).into(holder.thumbnailImageView);
+        if (Utils.isNetworkAvailable(context)) {
+            Picasso.with(context).load(Utils.BASE_PICTURE_URL + movieDataList.get(position).poster_path).into(holder.thumbnailImageView);
+        } else if (movieDataList.get(position).posterByteArray != null) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(
+                    movieDataList.get(position).posterByteArray,
+                    0,
+                    movieDataList.get(position).posterByteArray.length);
+
+            holder.thumbnailImageView.setImageBitmap(bitmap);
+        }
     }
 
     @Override
@@ -64,10 +77,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         notifyDataSetChanged();
     }
 
-    /**
-     * Cache of the children views for a forecast list item.
-     */
-    public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
+    public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final ImageView thumbnailImageView;
 
         public MovieAdapterViewHolder(View itemView) {
