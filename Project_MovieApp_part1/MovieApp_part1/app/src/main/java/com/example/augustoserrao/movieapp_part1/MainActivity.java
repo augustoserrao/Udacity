@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private final static String FAVORITES_URL_STRING = "/favorites";
 
     private static final String RADIO_BUTTON_ID_EXTRA = "radio_button_id";
+    private static final String LAYOUT_EXTRA = "layout_id";
+    private static final String POSITION_EXTRA = "position_id";
     private static final String SEARCH_QUERY_URL_EXTRA = "query";
 
     private static final int MOVIE_DATA_SEARCH_LOADER = 22;
@@ -47,6 +50,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private RadioButton mTopRatedRadioButton;
     private RadioButton mFavoritesRadioButton;
     private int currentRadioButtonId;
+
+    GridLayoutManager gridLayoutManager;
+    private Parcelable mRecyclerViewParcelable;
+    private int mScrollPosition = -1;
 
     private Context mContext;
 
@@ -90,6 +97,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                     break;
             }
 
+            mRecyclerViewParcelable = savedInstanceState.getParcelable(LAYOUT_EXTRA);
+            mScrollPosition = savedInstanceState.getInt(POSITION_EXTRA);
+
             currentRadioButtonId = radioButtonActivated;
         } else {
             URL_STRING = POPULAR_URL_STRING;
@@ -97,10 +107,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             currentRadioButtonId = R.id.popular_radio_button;
         }
 
-        GridLayoutManager layoutManager
-                = new GridLayoutManager(this, getResources().getInteger(R.integer.grid_size));
+        gridLayoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.grid_size));
 
-        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
         mMovieAdapter = new MovieAdapter(this);
@@ -135,6 +144,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+        int scrollPosition = ((GridLayoutManager)
+                mRecyclerView.getLayoutManager())
+                .findFirstCompletelyVisibleItemPosition();
+        mRecyclerViewParcelable = gridLayoutManager.onSaveInstanceState();
+        outState.putParcelable(LAYOUT_EXTRA, mRecyclerViewParcelable);
+        outState.putInt(POSITION_EXTRA, scrollPosition);
 
         Log.v("Main activity", "Saving instance = " + currentRadioButtonId);
         outState.putInt(RADIO_BUTTON_ID_EXTRA, currentRadioButtonId);
@@ -209,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mRecyclerView.setVisibility(View.VISIBLE);
         mErrorMessageTextView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
+        mRecyclerView.scrollToPosition(mScrollPosition);
     }
 
     public void showErrorMessage() {

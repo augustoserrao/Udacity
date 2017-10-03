@@ -4,10 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,7 +23,7 @@ public class NetworkUtils {
 
     public static URL buildMovieUrl(String finalUrlString, Context context) {
 
-        String apiKey = readApiKeyFromFile(context);
+        String apiKey = com.example.augustoserrao.movieapp_part1.BuildConfig.hiddenKey;
 
         Uri builtUri = Uri.parse(MOVIE_BASE_URL + finalUrlString).buildUpon()
                 .appendQueryParameter(API_KEY_PARAM, apiKey)
@@ -68,28 +66,5 @@ public class NetworkUtils {
         } finally {
             urlConnection.disconnect();
         }
-    }
-
-    private static String readApiKeyFromFile(Context context) {
-        // Read API Key
-        String apiKey = null;
-        BufferedReader reader = null;
-
-        try {
-            reader = new BufferedReader(
-                    new InputStreamReader(context.getAssets().open(API_KEY_FILE_NAME)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            apiKey = reader.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Log.d("FILE", "API_Key: " + apiKey);
-
-        return apiKey;
     }
 }
